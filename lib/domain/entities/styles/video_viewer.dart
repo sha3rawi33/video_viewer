@@ -33,16 +33,18 @@ class VideoViewerStyle {
     TextStyle? textStyle,
     this.thumbnail,
     this.header,
+    this.watermark,
     this.transitions = const Duration(milliseconds: 400),
     this.skipAdBuilder,
     this.skipAdAlignment = Alignment.bottomRight,
-  })  : loading = loading ??
-            Center(
-              child: CircularProgressIndicator(
-                strokeWidth: 1.6,
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-              ),
-            ),
+  })
+      : loading = loading ??
+      Center(
+        child: CircularProgressIndicator(
+          strokeWidth: 1.6,
+          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+        ),
+      ),
         buffering = buffering ??
             Center(
               child: CircularProgressIndicator(
@@ -90,6 +92,7 @@ class VideoViewerStyle {
 
   /// It is the widget header shows on the top when you tap the video viewer and it shows the progress bar
   final Widget? header;
+  final Widget? watermark;
 
   /// It is the NotNull-Widget that appears when the video is loading.
   ///
@@ -138,6 +141,7 @@ class VideoViewerStyle {
     Widget? thumbnail,
     Widget? header,
     Widget? loading,
+    Widget? watermark,
     Widget? buffering,
     Duration? transitions,
     TextStyle? textStyle,
@@ -151,10 +155,11 @@ class VideoViewerStyle {
       progressBarStyle: progressBarStyle ?? this.progressBarStyle,
       subtitleStyle: subtitleStyle ?? this.subtitleStyle,
       forwardAndRewindStyle:
-          forwardAndRewindStyle ?? this.forwardAndRewindStyle,
+      forwardAndRewindStyle ?? this.forwardAndRewindStyle,
       playAndPauseStyle: playAndPauseStyle ?? this.playAndPauseStyle,
       thumbnail: thumbnail ?? this.thumbnail,
       header: header ?? this.header,
+      watermark: watermark ?? this.watermark,
       loading: loading ?? this.loading,
       buffering: buffering ?? this.buffering,
       transitions: transitions ?? this.transitions,
@@ -178,6 +183,7 @@ class VideoViewerStyle {
         other.playAndPauseStyle == playAndPauseStyle &&
         other.thumbnail == thumbnail &&
         other.header == header &&
+        other.watermark == watermark &&
         other.loading == loading &&
         other.buffering == buffering &&
         other.transitions == transitions &&
@@ -190,19 +196,20 @@ class VideoViewerStyle {
   @override
   int get hashCode {
     return settingsStyle.hashCode ^
-        volumeBarStyle.hashCode ^
-        progressBarStyle.hashCode ^
-        subtitleStyle.hashCode ^
-        forwardAndRewindStyle.hashCode ^
-        playAndPauseStyle.hashCode ^
-        thumbnail.hashCode ^
-        header.hashCode ^
-        loading.hashCode ^
-        buffering.hashCode ^
-        transitions.hashCode ^
-        textStyle.hashCode ^
-        skipAdBuilder.hashCode ^
-        skipAdAlignment.hashCode ^
-        chatStyle.hashCode;
+    volumeBarStyle.hashCode ^
+    progressBarStyle.hashCode ^
+    subtitleStyle.hashCode ^
+    forwardAndRewindStyle.hashCode ^
+    playAndPauseStyle.hashCode ^
+    thumbnail.hashCode ^
+    header.hashCode ^
+    watermark.hashCode ^
+    loading.hashCode ^
+    buffering.hashCode ^
+    transitions.hashCode ^
+    textStyle.hashCode ^
+    skipAdBuilder.hashCode ^
+    skipAdAlignment.hashCode ^
+    chatStyle.hashCode;
   }
 }
