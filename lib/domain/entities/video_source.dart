@@ -98,13 +98,15 @@ class VideoSource {
     Map<String, String> sources, {
     String initialSubtitle = "",
     Map<String, VideoViewerSubtitle>? subtitle,
+    Map<String, String>? videoHttpHeaders,
     List<VideoViewerAd>? ads,
     Tween<Duration>? range,
   }) {
     Map<String, VideoSource> videoSource = {};
     for (String key in sources.keys)
       videoSource[key] = VideoSource(
-        video: VideoPlayerController.network(sources[key]!),
+        video: VideoPlayerController.network(sources[key]!,
+            httpHeaders: videoHttpHeaders!),
         intialSubtitle: initialSubtitle,
         subtitle: subtitle,
         range: range,
@@ -127,6 +129,7 @@ class VideoSource {
     String m3u8, {
     String initialSubtitle = "",
     Map<String, VideoViewerSubtitle>? subtitle,
+    Map<String, String>? videoHttpHeaders,
     List<VideoViewerAd>? ads,
     Tween<Duration>? range,
     String Function(String quality)? formatter,
@@ -148,7 +151,8 @@ class VideoSource {
 
     //GET m3u8 file
     late String content = "";
-    final http.Response response = await http.get(Uri.parse(m3u8));
+    final http.Response response =
+        await http.get(Uri.parse(m3u8), headers: videoHttpHeaders!);
     if (response.statusCode == 200) content = utf8.decode(response.bodyBytes);
     final String directoryPath = (await getTemporaryDirectory()).path;
 
@@ -202,7 +206,8 @@ class VideoSource {
     Map<String, VideoSource> videoSource = {};
     void addAutoSource() {
       videoSource["Auto"] = VideoSource(
-        video: VideoPlayerController.network(m3u8),
+        video:
+            VideoPlayerController.network(m3u8, httpHeaders: videoHttpHeaders!),
         intialSubtitle: initialSubtitle,
         subtitle: subtitle,
         range: range,
