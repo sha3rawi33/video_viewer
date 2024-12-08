@@ -2,10 +2,8 @@ import 'dart:async';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:helpers/helpers.dart';
 import 'package:native_device_orientation/native_device_orientation.dart';
-
 import 'package:video_viewer/video_viewer.dart';
 
 /// SUMMARY
@@ -64,9 +62,8 @@ class SerieSource {
 class CustomVideoViewerStyle extends VideoViewerStyle {
   CustomVideoViewerStyle({required Movie movie, required BuildContext context})
       : super(
-          textStyle: context.textTheme.subtitle1,
-          playAndPauseStyle:
-              PlayAndPauseWidgetStyle(background: context.color.primary),
+          textStyle: context.textTheme.bodyMedium,
+          playAndPauseStyle: PlayAndPauseWidgetStyle(background: context.color.primary),
           progressBarStyle: ProgressBarStyle(
             bar: BarStyle.progress(color: context.color.primary),
           ),
@@ -75,7 +72,7 @@ class CustomVideoViewerStyle extends VideoViewerStyle {
             padding: kAllPadding,
             child: Headline6(
               movie.title,
-              style: TextStyle(color: context.textTheme.headline4?.color),
+              style: TextStyle(color: context.textTheme.headlineMedium?.color),
             ),
           ),
           thumbnail: Stack(children: [
@@ -106,16 +103,13 @@ const Map<String, SerieSource> kTheWitcherSource = {
   "Trailer 1": SerieSource(
     thumbnail: "https://i.ytimg.com/vi/ETY44yszyNc/maxresdefault.jpg",
     source: {
-      "video":
-          "https://felipemurguia.com/assets/videos/the_witcher_trailer.mp4",
+      "video": "https://felipemurguia.com/assets/videos/the_witcher_trailer.mp4",
     },
   ),
   "Trailer 2": SerieSource(
-    thumbnail:
-        "https://i.blogs.es/0f91c5/the-witcher-temporada-2-cartel/450_1000.jpeg",
+    thumbnail: "https://i.blogs.es/0f91c5/the-witcher-temporada-2-cartel/450_1000.jpeg",
     source: {
-      "video":
-          "https://felipemurguia.com/assets/videos/the_witcher_trailer_2.mp4",
+      "video": "https://felipemurguia.com/assets/videos/the_witcher_trailer_2.mp4",
     },
   )
 };
@@ -130,8 +124,7 @@ const List<Serie> kSeriesData = [
   ),
   Serie(
     source: kTheWitcherSource,
-    thumbnail:
-        "https://www.muycomputer.com/wp-content/uploads/2021/04/SombrayHueso-1000x600.jpg",
+    thumbnail: "https://www.muycomputer.com/wp-content/uploads/2021/04/SombrayHueso-1000x600.jpg",
     title: "Shadow and Bone",
     category: "Fantasy",
     isFavorite: false,
@@ -147,15 +140,13 @@ const List<Serie> kSeriesData = [
 
 const List<Movie> kMoviesData = [
   Movie(
-    thumbnail:
-        "https://es.web.img3.acsta.net/pictures/18/11/16/11/31/2850705.jpg",
+    thumbnail: "https://es.web.img3.acsta.net/pictures/18/11/16/11/31/2850705.jpg",
     title: "Mortal Machines",
     category: "Sci-fi",
     isFavorite: true,
   ),
   Movie(
-    thumbnail:
-        "https://pics.filmaffinity.com/La_guerra_del_ma_ana-735069980-large.jpg",
+    thumbnail: "https://pics.filmaffinity.com/La_guerra_del_ma_ana-735069980-large.jpg",
     title: "The tomorrow war",
     category: "Sci-fi",
     isFavorite: false,
@@ -188,43 +179,6 @@ class App extends StatelessWidget {
         cardColor: Color(0xFFfbfafe),
         primaryColor: Color(0xFFd81e27),
         shadowColor: Color(0xFF324754).withOpacity(0.24),
-        textTheme: TextTheme(
-          headline4: GoogleFonts.montserrat(
-            color: Colors.white,
-            fontSize: 34,
-            fontWeight: FontWeight.bold,
-            letterSpacing: 0.4,
-          ),
-          headline5: GoogleFonts.montserrat(
-            color: Color(0xFF324754),
-            fontSize: 24,
-            fontWeight: FontWeight.w500,
-          ),
-          headline6: GoogleFonts.montserrat(
-            color: Color(0xFF324754),
-            fontSize: 20,
-            fontWeight: FontWeight.w500,
-          ),
-          bodyText1: GoogleFonts.montserrat(
-            color: Color(0xFF324754),
-            fontWeight: FontWeight.w500,
-            fontSize: 16,
-          ),
-          subtitle1: GoogleFonts.montserrat(
-            color: Colors.white,
-            fontSize: 12,
-          ),
-          subtitle2: GoogleFonts.montserrat(
-            color: Color(0xFF819ab1),
-            fontSize: 12,
-          ),
-          button: GoogleFonts.montserrat(
-            color: Colors.white,
-            letterSpacing: 0.8,
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
       ),
       home: const MainPage(),
     );
@@ -281,18 +235,12 @@ class MoviePage extends StatelessWidget {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(children: [
-            movie is Serie
-                ? SerieVideoViewer(movie as Serie)
-                : MovieVideoViewer(movie),
+            movie is Serie ? SerieVideoViewer(movie as Serie) : MovieVideoViewer(movie),
             Padding(
               padding: kAllSectionPadding,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(child: MovieTitle(movie, type: MovieStyle.page)),
-                  const SizedBox(width: kPadding),
-                  MovieFavoriteIcon(movie, type: MovieStyle.page)
-                ],
+                children: [Expanded(child: MovieTitle(movie, type: MovieStyle.page)), const SizedBox(width: kPadding), MovieFavoriteIcon(movie, type: MovieStyle.page)],
               ),
             ),
           ]),
@@ -329,24 +277,7 @@ class _MovieVideoViewerState extends State<MovieVideoViewer> {
             video: VideoPlayerController.network(
               "https://felipemurguia.com/assets/videos/mortal_machines_trailer.mp4",
             ),
-            ads: [
-              VideoViewerAd(
-                fractionToStart: 0,
-                child: Container(
-                  color: Colors.black,
-                  child: Center(child: Headline4("AD ZERO")),
-                ),
-                durationToSkip: Duration.zero,
-              ),
-              VideoViewerAd(
-                fractionToStart: 0.5,
-                child: Container(
-                  color: Colors.black,
-                  child: Center(child: Headline4("AD HALF")),
-                ),
-                durationToSkip: Duration(seconds: 4),
-              ),
-            ],
+            ads: [],
             range: Tween<Duration>(
               begin: const Duration(seconds: 5),
               end: const Duration(seconds: 25),
@@ -421,8 +352,7 @@ class _SerieVideoViewerState extends State<SerieVideoViewer> {
         enableChat: true,
         onFullscreenFixLandscape: false,
         source: VideoSource.fromNetworkVideoSources(initial.value.source),
-        style: CustomVideoViewerStyle(movie: widget.serie, context: context)
-            .copyWith(
+        style: CustomVideoViewerStyle(movie: widget.serie, context: context).copyWith(
           chatStyle: const VideoViewerChatStyle(chat: SerieChat()),
           settingsStyle: SettingsMenuStyle(
             paddingBetweenMainMenuItems: 10,
@@ -490,17 +420,13 @@ class _VideoViewerOrientationState extends State<VideoViewerOrientation> {
 
   @override
   void initState() {
-    _subscription = NativeDeviceOrientationCommunicator()
-        .onOrientationChanged()
-        .listen(_onOrientationChanged);
+    _subscription = NativeDeviceOrientationCommunicator().onOrientationChanged().listen(_onOrientationChanged);
     super.initState();
   }
 
   void _onOrientationChanged(NativeDeviceOrientation orientation) {
     final bool isFullScreen = widget.controller.isFullScreen;
-    final bool isLandscape =
-        orientation == NativeDeviceOrientation.landscapeLeft ||
-            orientation == NativeDeviceOrientation.landscapeRight;
+    final bool isLandscape = orientation == NativeDeviceOrientation.landscapeLeft || orientation == NativeDeviceOrientation.landscapeRight;
     if (!isFullScreen && isLandscape) {
       printGreen("OPEN FULLSCREEN");
       widget.controller.openFullScreen();
@@ -560,7 +486,7 @@ class _SerieChatState extends State<SerieChat> {
         itemBuilder: (_, int index) {
           return Text(
             "x$index ${_texts[index]}",
-            style: context.textTheme.subtitle1,
+            style: context.textTheme.bodyMedium,
           );
         },
       ),
@@ -599,7 +525,6 @@ class SerieEpisodeThumbnail extends StatelessWidget {
                 child: Container(
                   padding: padding,
                   color: context.color.card.withOpacity(0.16),
-                  child: Subtitle1(title),
                 ),
               ),
             ),
@@ -717,9 +642,7 @@ class _MovieCardSliderState extends State<MovieCardSlider> {
                 itemOffset = 0.0;
               }
               final double distortionValue = curve.transform(
-                (1 - (itemOffset.abs() * (1 - minScale)))
-                    .clamp(0.0, 1.0)
-                    .toDouble(),
+                (1 - (itemOffset.abs() * (1 - minScale))).clamp(0.0, 1.0).toDouble(),
               );
               return Transform.scale(
                 scale: distortionValue,
@@ -774,8 +697,7 @@ class MovieFavoriteIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final BuildColor color = context.color;
-    final IconData iconData =
-        movie.isFavorite ? Icons.favorite : Icons.favorite_outline;
+    final IconData iconData = movie.isFavorite ? Icons.favorite : Icons.favorite_outline;
 
     return Hero(
       tag: movie.title + "Favorite",
@@ -816,7 +738,7 @@ class MovieTitle extends StatelessWidget {
     TextStyle? style;
 
     if (type == MovieStyle.page) {
-      style = TextStyle(color: context.textTheme.bodyText1?.color);
+      style = TextStyle(color: context.textTheme.bodyMedium?.color);
     }
 
     return Hero(
@@ -824,10 +746,7 @@ class MovieTitle extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Headline4(movie.title, style: style),
-          Subtitle1(movie.category, style: style),
-        ],
+        children: [],
       ),
     );
   }
@@ -875,19 +794,19 @@ class SearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextStyle? subtitle2 = context.textTheme.subtitle2;
+    final TextStyle? bodyMedium = context.textTheme.bodyMedium;
     return CustomContainer(
       child: Row(children: [
         Padding(
           padding: const Margin.horizontal(kPadding),
-          child: Icon(Icons.search, color: subtitle2?.color),
+          child: Icon(Icons.search, color: bodyMedium?.color),
         ),
         Expanded(
           child: TextField(
-            style: subtitle2,
+            style: bodyMedium,
             decoration: InputDecoration(
               hintText: "Search in catalog...",
-              hintStyle: subtitle2,
+              hintStyle: bodyMedium,
               border: InputBorder.none,
               errorBorder: InputBorder.none,
               focusedBorder: InputBorder.none,

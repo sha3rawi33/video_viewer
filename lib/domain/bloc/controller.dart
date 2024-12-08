@@ -1,16 +1,16 @@
 import 'dart:async';
 import 'dart:developer';
-import 'package:video_player/video_player.dart';
-import 'package:helpers/helpers.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:wakelock/wakelock.dart';
 
-import 'package:video_viewer/ui/fullscreen.dart';
-import 'package:video_viewer/domain/entities/ads.dart';
+import 'package:flutter/material.dart';
+import 'package:helpers/helpers.dart';
+import 'package:provider/provider.dart';
+import 'package:video_player/video_player.dart';
 import 'package:video_viewer/data/repositories/video.dart';
+import 'package:video_viewer/domain/entities/ads.dart';
 import 'package:video_viewer/domain/entities/subtitle.dart';
 import 'package:video_viewer/domain/entities/video_source.dart';
+import 'package:video_viewer/ui/fullscreen.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 const int _kMillisecondsToHideTheOverlay = 2800;
 
@@ -190,7 +190,7 @@ class VideoViewerController extends ChangeNotifier with WidgetsBindingObserver {
       autoPlay: autoPlay,
     );
     log("VIDEO VIEWER INITIALIZED");
-    Wakelock.enable();
+    WakelockPlus.enable();
   }
 
   @override
@@ -202,7 +202,7 @@ class VideoViewerController extends ChangeNotifier with WidgetsBindingObserver {
     _video?.removeListener(_videoListener);
     _video?.pause();
     _video?.dispose();
-    Wakelock.disable();
+    WakelockPlus.disable();
     log("VIDEO VIEWER DISPOSED");
     super.dispose();
   }
@@ -404,8 +404,7 @@ class VideoViewerController extends ChangeNotifier with WidgetsBindingObserver {
     //Show the current Subtitle
     if (_subtitle != null) {
       if (_activeSubtitleData != null) {
-        if (!(position > _activeSubtitleData!.start &&
-            position < _activeSubtitleData!.end)) _findSubtitle();
+        if (!(position > _activeSubtitleData!.start && position < _activeSubtitleData!.end)) _findSubtitle();
       } else {
         _findSubtitle();
       }
@@ -415,8 +414,7 @@ class VideoViewerController extends ChangeNotifier with WidgetsBindingObserver {
     if (_ads != null) {
       if (_activeAd != null) {
         final Duration start = _getAdStartTime(_activeAd!);
-        if (!(position > start &&
-            position < start + _activeAd!.durationToEnd)) {
+        if (!(position > start && position < start + _activeAd!.durationToEnd)) {
           _findAd();
         }
       } else {
@@ -441,9 +439,7 @@ class VideoViewerController extends ChangeNotifier with WidgetsBindingObserver {
 
     for (VideoViewerAd ad in _ads!) {
       final Duration start = _getAdStartTime(ad);
-      if (position > start &&
-          position < start + ad.durationToEnd &&
-          _activeAd != ad) {
+      if (position > start && position < start + ad.durationToEnd && _activeAd != ad) {
         _activeAd = ad;
         await _video?.pause();
         _ads?.remove(ad);
@@ -498,9 +494,7 @@ class VideoViewerController extends ChangeNotifier with WidgetsBindingObserver {
     final Duration position = _video!.value.position;
     bool foundOne = false;
     for (SubtitleData subtitle in subtitles!) {
-      if (position > subtitle.start &&
-          position < subtitle.end &&
-          _activeSubtitleData != subtitle) {
+      if (position > subtitle.start && position < subtitle.end && _activeSubtitleData != subtitle) {
         _activeSubtitleData = subtitle;
         foundOne = true;
         notifyListeners();

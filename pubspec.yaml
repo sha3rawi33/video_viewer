@@ -17,7 +17,7 @@ dependencies:
   provider: ^6.0.3
   video_player: ^2.4.5
   volume_watcher: ^2.0.1
-  wakelock: ^0.6.2
+  wakelock_plus: ^1.2.8
 
 dev_dependencies:
   flutter_test:
